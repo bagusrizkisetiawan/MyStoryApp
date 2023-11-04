@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Story App</string>
+    <string name="app_name">Story App</string>
     <string name="name_app">Selamat Datang di Story App</string>
     <string name="descApp">Aplikasi untuk menyimpan semua Momen Penting keseharianmu dan jadikan itu momen berharga bagimu!!</string>
     <string name="title_activity_login">LoginActivity</string>
@@ -19,4 +19,8 @@
     <string name="tv_email">Email</string>
     <string name="tv_password">Password</string>
     <string name="error">tethjdhaknd</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="upload">Upload</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>

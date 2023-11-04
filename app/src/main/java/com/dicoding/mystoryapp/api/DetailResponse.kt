@@ -2,19 +2,19 @@ package com.dicoding.mystoryapp.api
 
 import com.google.gson.annotations.SerializedName
 
-data class StoryResponse(
-
-	@field:SerializedName("listStory")
-	val listStory: List<ListStoryItem>,
+data class DetailResponse(
 
 	@field:SerializedName("error")
 	val error: Boolean,
 
 	@field:SerializedName("message")
-	val message: String
+	val message: String,
+
+	@field:SerializedName("story")
+	val story: Story
 )
 
-data class ListStoryItem(
+data class Story(
 
 	@field:SerializedName("photoUrl")
 	val photoUrl: String,
@@ -29,11 +29,11 @@ data class ListStoryItem(
 	val description: String,
 
 	@field:SerializedName("lon")
-	val lon: Double,
+	val lon: Any,
 
 	@field:SerializedName("id")
 	val id: String,
 
 	@field:SerializedName("lat")
-	val lat: Double
+	val lat: Any
 )

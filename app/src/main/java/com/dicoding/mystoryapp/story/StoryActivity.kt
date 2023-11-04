@@ -5,15 +5,15 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.mystoryapp.R
-import com.dicoding.mystoryapp.api.ApiConfig
-import com.dicoding.mystoryapp.api.StoryResponse
+import com.dicoding.mystoryapp.api.ListStoryItem
 import com.dicoding.mystoryapp.databinding.ActivityStoryBinding
+import com.dicoding.mystoryapp.main.MainActivity
+import com.dicoding.mystoryapp.maps.MapsActivity
+import com.dicoding.mystoryapp.preference.UserModel
 import com.dicoding.mystoryapp.preference.UserPref
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class StoryActivity : AppCompatActivity() {
@@ -26,13 +26,38 @@ class StoryActivity : AppCompatActivity() {
         binding = ActivityStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         // Set up the app bar menu item click listener
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.add_story -> {
-                    startActivity(Intent(this, AddStoryActivity::class.java))
+                    val intent = Intent(this, AddStoryActivity::class.java)
+
+                    startActivity(intent)
                     true
                 }
+
+                R.id.maps_story -> {
+                    val intent = Intent(this, MapsActivity::class.java)
+
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.keluar -> {
+                    // mengembalikan nulai null ke preference
+                    val dataUser = UserModel(
+                        null,
+                        null,
+                        null,
+                    )
+                    userPref.setUser(dataUser)
+
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                    true
+                }
+
                 else -> false
             }
         }
@@ -41,54 +66,35 @@ class StoryActivity : AppCompatActivity() {
         binding.rvStory.setHasFixedSize(true)
         binding.rvStory.layoutManager = LinearLayoutManager(this)
 
-        // Initialize UserPref for handling user preferences
+        // Inisialisasi UserPref untuk token preferensi pengguna
         userPref = UserPref(this)
+        val token = userPref.getUser().token
 
-        // Check if user data (including token) is available in shared preferences
-        if (userPref.preference.contains(UserPref.NAME)) {
-            val token = userPref.getUser().token
+        if (token != null){
 
-            // Initialize API service with the retrieved token
-            val apiService = ApiConfig.getApiService(token)
-            // Make an API call to get the list of stories
-            val call = apiService.getStory()
+            val storyViewModel = ViewModelProvider(
+                this,
+                ViewModelProvider.NewInstanceFactory()
+            ).get(StoryViewModel::class.java)
 
-            // Enqueue the API call to handle the response asynchronously
-            call?.enqueue(object : Callback<StoryResponse> {
-                override fun onResponse(
-                    call: Call<StoryResponse>,
-                    response: Response<StoryResponse>
-                ) {
-                    showLoading(true)
+            token?.let { storyViewModel.getListStory(it) }
 
-                    // Handle successful response from the API
-                    if (response.isSuccessful) {
-                        // Retrieve the list of stories from the response body
-                        val stories = response.body()
+            // observe perubahan status loading di ViewModel
+            storyViewModel.isLoading.observe(this) { isLoading ->
+                showLoading(isLoading)
+            }
 
-                        if (stories != null) {
-                            showLoading(false)
-                            showStories(stories)
-                        } else {
-                            showError("Empty response")
-                        }
-                    } else {
-                        showError("Unsuccessful response: ${response.code()}")
-                    }
-                }
+            storyViewModel.listStory.observe(this){
+                showStories(it)
+            }
 
-                // Handle API call failure
-                override fun onFailure(call: Call<StoryResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
-                }
-            })
         }
     }
 
     // Display the list of stories in the RecyclerView using the StoryAdapter
-    private fun showStories(stories: StoryResponse) {
+    private fun showStories(stories: List<ListStoryItem>) {
         // Set the adapter for the RecyclerView
-        binding.rvStory.adapter = StoryAdapter(stories.listStory)
+        binding.rvStory.adapter = StoryAdapter(stories)
     }
 
     // Display a Toast message with the given message
@@ -105,4 +111,40 @@ class StoryActivity : AppCompatActivity() {
         }
     }
 
+
+
+
+
+    override fun onResume() {
+        super.onResume()
+        // inisialisasi ViewModel
+        val storyViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.NewInstanceFactory()
+        ).get(StoryViewModel::class.java)
+
+        // ambil token dari UserPref
+        val token = userPref.getUser().token
+
+        // cek apakah token tidak null
+        token?.let {
+            // panggil metode untuk mendapatkan data terbaru
+            storyViewModel.getListStory(it)
+
+            storyViewModel.listStory.observe(this){
+                showStories(it)
+            }
+
+            // observe perubahan status loading di ViewModel
+            storyViewModel.isLoading.observe(this) { isLoading ->
+                // tampilkan atau sembunyikan loading progress bar sesuai dengan status loading
+                showLoading(isLoading)
+            }
+        }
+    }
+
 }
+
+
+
+

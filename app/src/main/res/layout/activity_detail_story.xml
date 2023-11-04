@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="8dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".story.DetailStoryActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/img_story"
+            android:id="@+id/iv_story"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
-            tools:src="@tools:sample/avatars"
-            tools:ignore="MissingConstraints"
-            android:scaleType="centerCrop"/>
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:transitionName="photo"
+            tools:src="@tools:sample/avatars"/>
 
         <TextView
             android:id="@+id/tv_story_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/img_story"
+            app:layout_constraintTop_toBottomOf="@+id/iv_story"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="16dp"
-            android:textSize="18sp"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="16dp"
-            tools:text="@tools:sample/first_names"
-            />
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:transitionName="name"
+            android:textSize="18sp"
+            tools:text="@tools:sample/full_names"/>
+
         <TextView
             android:id="@+id/tv_story_desc"
             android:layout_width="match_parent"
@@ -40,17 +41,12 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_story_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
+            android:transitionName="description"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="4dp"
-            android:lines="1"
-            tools:text="@tools:sample/full_names"/>
-
-
-
+            tools:text="@tools:sample/lorem/random"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</androidx.cardview.widget.CardView>
+</ScrollView>

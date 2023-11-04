@@ -5,10 +5,11 @@ import android.os.Bundle
 import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
 
 import com.dicoding.mystoryapp.databinding.ActivityMainBinding
 import com.dicoding.mystoryapp.login.LoginActivity
-import com.dicoding.mystoryapp.preference.UserModel
 import com.dicoding.mystoryapp.preference.UserPref
 import com.dicoding.mystoryapp.register.RegisterActivity
 import com.dicoding.mystoryapp.story.StoryActivity
@@ -32,8 +33,6 @@ class MainActivity : AppCompatActivity() {
             // Jika sudah login, ambil nama pengguna dari preferensi
             val user = userPref.getUser().name
 
-            // Tampilkan pesan selamat datang
-            showToast("Selamat datang $user")
 
             // Redirect ke layar cerita
             val intent = Intent(this@MainActivity, StoryActivity::class.java)
@@ -46,14 +45,29 @@ class MainActivity : AppCompatActivity() {
 
         // Mengatur aksi saat tombol login ditekan
         btnLogin.setOnClickListener{
+
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                this@MainActivity,
+                btnLogin, // View asal yang akan menggunakan animasi transisi
+                ViewCompat.getTransitionName(btnLogin).toString() // Nama transisi, dapat berupa string unik
+            )
+
+
             val intent = Intent(this@MainActivity, LoginActivity::class.java)
-            startActivity(intent)
+            startActivity(intent, options.toBundle())
         }
 
         // Mengatur aksi saat tombol daftar ditekan
         btnRegist.setOnClickListener{
+
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                this@MainActivity,
+                btnRegist, // View asal yang akan menggunakan animasi transisi
+                ViewCompat.getTransitionName(btnRegist).toString() // Nama transisi, dapat berupa string unik
+            )
+
             val intent = Intent(this@MainActivity, RegisterActivity::class.java)
-            startActivity(intent)
+            startActivity(intent, options.toBundle())
         }
     }
 

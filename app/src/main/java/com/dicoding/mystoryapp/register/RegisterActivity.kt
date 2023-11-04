@@ -51,7 +51,7 @@ class RegisterActivity : AppCompatActivity() {
                         val apiService = ApiConfig.getApiService("")
                         val successRegister = apiService.register(name, email, password)
 
-                        // showToast(successRegister.message)
+                        showToast(successRegister.message)
 
                         showLoading(false)
 

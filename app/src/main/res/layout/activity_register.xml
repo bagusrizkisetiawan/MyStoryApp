@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layoutDescription="@xml/activity_register_scene"
     tools:context=".login.LoginActivity">
 
 
@@ -13,7 +14,7 @@
         android:layout_height="250dp"
         android:layout_marginStart="42dp"
         android:layout_marginEnd="42dp"
-        android:src="@drawable/regist"
+        android:src="@drawable/register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +60,6 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tl_nama"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -94,7 +94,6 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tl_email"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -129,7 +128,6 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tl_password"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -150,14 +148,16 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_proses_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="22dp"
         android:layout_marginEnd="32dp"
-        android:text="Masuk"
+        android:padding="16dp"
+        android:text="Daftar"
+        app:cornerRadius="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tl_password" />

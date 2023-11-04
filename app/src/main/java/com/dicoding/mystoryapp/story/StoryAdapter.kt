@@ -1,11 +1,15 @@
 package com.dicoding.mystoryapp.story
 
+import android.app.Activity
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dicoding.mystoryapp.api.ListStoryItem
 import com.dicoding.mystoryapp.databinding.ItemStoryBinding
+import androidx.paging.PagingData
 
 class StoryAdapter(private val stories: List<ListStoryItem>) : RecyclerView.Adapter<StoryAdapter.StoryViewHolder>() {
     // Membuat view holder baru
@@ -19,8 +23,21 @@ class StoryAdapter(private val stories: List<ListStoryItem>) : RecyclerView.Adap
     override fun onBindViewHolder(holder: StoryViewHolder, position: Int) {
         // Mengambil objek cerita dari daftar berdasarkan posisi
         val story = stories[position]
+
         // Memanggil fungsi bind pada view holder untuk mengisi data cerita ke tampilan
         holder.bind(story)
+
+        // Mengatur OnClickListener untuk tampilan item
+        holder.itemView.setOnClickListener {
+            // Mengirim ID cerita ke activity lain menggunakan Intent
+            val context = holder.itemView.context
+            val intent = Intent(context, DetailStoryActivity::class.java)
+            intent.putExtra("storyId", story.id) // Mengirim ID cerita sebagai extra
+
+            context.startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(context as Activity).toBundle())
+
+        }
+
     }
 
     // Mengembalikan jumlah item dalam daftar cerita

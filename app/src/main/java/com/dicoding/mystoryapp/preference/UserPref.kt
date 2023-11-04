@@ -2,7 +2,7 @@ package com.dicoding.mystoryapp.preference
 
 import android.content.Context
 
-class UserPref(context:Context) {
+class UserPref(context: Context) {
     companion object{
         const val SP_NAME="user_pref"
 

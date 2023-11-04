@@ -42,10 +42,13 @@ class LoginActivity : AppCompatActivity() {
             } else if (password.isNullOrEmpty()) {
                 binding.edLoginPassword.error = "Password tidak boleh kosong"
             } else{
+
+                showLoading(true)
+
                 // Melakukan proses login dengan menggunakan coroutine
                 lifecycleScope.launch {
                     try {
-                        showLoading(true)
+
                         // Membuat panggilan API untuk login
                         val apiService = ApiConfig.getApiService("")
                         val successLogin = apiService.login(email, password)
@@ -60,6 +63,7 @@ class LoginActivity : AppCompatActivity() {
                         )
 
                         userPref.setUser(dataUser)
+
                         showLoading(false)
 
                         // Menampilkan dialog login berhasil
